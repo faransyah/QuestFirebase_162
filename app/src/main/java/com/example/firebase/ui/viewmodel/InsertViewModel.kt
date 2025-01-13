@@ -7,7 +7,14 @@ import com.example.firebase.repository.MahasiswaRepository
 
 
 
-
+data class MahasiswaEvent(
+    val nim: String = "",
+    val nama: String = "",
+    val jenisKelamin: String = "",
+    val alamat: String = "",
+    val kelas: String = "",
+    val angkatan: String = ""
+)
 
 fun MahasiswaEvent.toMhsModel() : Mahasiswa = Mahasiswa(
     nim = nim,
