@@ -130,7 +130,7 @@ fun OnLoading(modifier: Modifier =Modifier){
 
 
 @Composable
-fun OnError(retryAction: () -> Unit,modifier: Modifier = Modifier){
+fun OnError(retryAction: () -> Unit,modifier: Modifier = Modifier, message: String){
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
