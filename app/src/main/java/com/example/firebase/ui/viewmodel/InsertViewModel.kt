@@ -13,6 +13,18 @@ class InsertViewModel (
 ): ViewModel(){
 
     var uiEvent: InsertUiState by mutableStateOf(InsertUiState())
+        private set
+
+    var uiState: FormState by mutableStateOf(FormState.Idle)
+        private set
+
+    fun updateState(mahasiswaEvent: MahasiswaEvent){
+        uiEvent = uiEvent.copy(
+            insertUiEvent = mahasiswaEvent,
+        )
+    }
+
+
 }
 
 
@@ -32,7 +44,7 @@ sealed class FormState{
     data class Error(val message: String) : FormState()
 }
 data class InsertUiState(
-    val insertUiState: MahasiswaEvent = MahasiswaEvent(),
+    val insertUiEvent: MahasiswaEvent = MahasiswaEvent(),
     val isEntryValid: FormErrorState = FormErrorState(),
 )
 
