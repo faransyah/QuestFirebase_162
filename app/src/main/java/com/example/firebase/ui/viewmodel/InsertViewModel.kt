@@ -6,6 +6,12 @@ import com.example.firebase.model.Mahasiswa
 import com.example.firebase.repository.MahasiswaRepository
 
 
+sealed class FormState{
+    object Idle : FormState()
+    object Loading: FormState()
+    data class Succes(val message: String) : FormState()
+    data class Error(val message: String) : FormState()
+}
 data class InsertUiState(
     val insertUiState: MahasiswaEvent = MahasiswaEvent(),
     val isEntryValid: FormErrorState = FormErrorState(),
