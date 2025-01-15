@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -152,6 +153,7 @@ fun InsertBodyMhs(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormMahasiswa(
     mahasiswaEvent: MahasiswaEvent = MahasiswaEvent(),
@@ -265,7 +267,31 @@ fun FormMahasiswa(
             placeholder = { Text("Masukkan angkatan")},
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
-        Text(text = errorState.angkatan ?: "", color = Color.Red)
+        Text(text = errorState.skripsi ?: "", color = Color.Red)
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.skripsi,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(skripsi = it))
+            },
+            label = { Text("Skripsi")},
+            isError = errorState.skripsi != null,
+            placeholder = { Text("Masukkan judul skripsi")}
+        )
+        Text(text = errorState.skripsi ?: "", color = Color.Red)
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dosen,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(dosen = it))
+            },
+            label = { Text("Skripsi")},
+            isError = errorState.dosen != null,
+            placeholder = { Text("Masukkan Nama Dosen")}
+        )
+        Text(text = errorState.dosen ?: "", color = Color.Red)
 
     }
 }

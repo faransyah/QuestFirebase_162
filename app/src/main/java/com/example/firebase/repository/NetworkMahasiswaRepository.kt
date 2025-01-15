@@ -15,7 +15,7 @@ class NetworkMahasiswaRepository(
 
 ): MahasiswaRepository {
 
-    override suspend fun insertMhs(mahasiswa: Mahasiswa){
+    override suspend fun insertMahasiswa(mahasiswa: Mahasiswa){
         try {
             firestore.collection("Mahasiswa") .add(mahasiswa) .await()
         }catch (e: Exception){
@@ -39,36 +39,42 @@ class NetworkMahasiswaRepository(
             mhsCollection.remove()
         }
     }
-
-    override fun getMhs(nim: String): Flow<Mahasiswa> = callbackFlow {
-        val mhsDocument = firestore.collection("Mahasiswa")
-            .document(nim)
-            .addSnapshotListener { value, error ->
-                if (value != null) {
-                    val mhs = value.toObject(Mahasiswa::class.java)!!
-                    trySend(mhs)
-                }
-            }
-        awaitClose { mhsDocument.remove() }
-    }
-    override suspend fun deleteMhs(mahasiswa: Mahasiswa){
+    override suspend fun updateMahasiswa(nim: String, mahasiswa: Mahasiswa) {
         try {
             firestore.collection("Mahasiswa")
-                .document(mahasiswa.nim)
-                .delete()
-                .await()
-        }catch (e: Exception){
-            throw Exception("Gagal menghapus data mahasiswa: ${e.message}" )
-        }
-    }
-    override suspend fun updateMhs(mahasiswa: Mahasiswa){
-        try {
-            firestore.collection("Mahasiswa")
-                .document(mahasiswa.nim)
+                .document(nim)
                 .set(mahasiswa)
                 .await()
-        }catch (e: Exception){
-            throw Exception("Gagal mengupadate data mahasiswa: ${e.message}")
+        } catch (e: Exception) {
+            throw Exception("Gagal memperbarui data mahasiswa: ${e.message}")
+        }
+    }
+
+    // Menghapus data mahasiswa berdasarkan NIM
+    override suspend fun deleteMahasiswa(nim: String) {
+        try {
+            firestore.collection("Mahasiswa")
+                .document(nim)
+                .delete()
+                .await()
+        } catch (e: Exception) {
+            throw Exception("Gagal menghapus data mahasiswa: ${e.message}")
+        }
+    }
+
+    // Mendapatkan data mahasiswa berdasarkan NIM
+    override suspend fun getMahasiswaByNim(nim: String): Flow<Mahasiswa> = callbackFlow {
+        val mhsDocument = firestore.collection("mahasiswa")
+            .document(nim)
+            .addSnapshotListener{value, error ->
+                if(value != null){
+                    val mhs = value.toObject(Mahasiswa::class.java)!!
+                    trySend(mhs)
+
+                }
+            }
+        awaitClose{
+            mhsDocument.remove()
         }
     }
 }

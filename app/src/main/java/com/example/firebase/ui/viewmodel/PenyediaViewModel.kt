@@ -18,7 +18,7 @@ object PenyediaViewModel {
 
         initializer {
             InsertViewModel(
-                Mhs().container
+                aplikasiMahasiswa().container.mahasiswaRepository
             )
         }
     }
